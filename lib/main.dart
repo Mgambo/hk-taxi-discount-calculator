@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: const TextTheme(
-          bodyMedium: TextStyle(fontSize: 25.0)
+          bodyMedium: TextStyle(fontSize: 20.0)
         ),
         primarySwatch: Colors.blueGrey,
       ),

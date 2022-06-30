@@ -17,12 +17,13 @@ class priceField extends StatelessWidget {
       ),
       child: Column(
         children: <Widget>[
+          const Icon(Icons.discount),
           Container(
             child:
               Text(
                 label,
                 textAlign: TextAlign.center, 
-                style: const TextStyle(fontSize: 18.0),
+                style: const TextStyle(fontSize: 14.0),
               )
           ),
           Text(price, textAlign: TextAlign.center)
