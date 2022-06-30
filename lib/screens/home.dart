@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../consts/languages/chinese.dart';
+import '../utils/rate.dart';
 import '../components/price.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -12,16 +13,21 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final newPriceController = TextEditingController();
+  String ninetyPrice = '0';
+  String eightyFivePrice = '0';
 
   void calculatePrice(value) {
-    double newPrice = 0;
+    num newPrice = 0;
     setState(() {
-      if (value != '' && double.tryParse(value) != null) {
-        newPrice = double.parse(value) * 0.85;
+      if (value != '' && rateUtil().validatePrice(num.parse(value))) {
+        newPrice = rateUtil().calcNewPrice(num.parse(value)); //num.parse(value) * 0.85;
       } else {
         newPrice = 0;
       }
       newPriceController.text = newPrice.toString();
+      eightyFivePrice = (newPrice * 0.85).toStringAsPrecision(3).toString();
+      ninetyPrice = (newPrice * 0.9).toStringAsPrecision(3).toString();
+      priceField.priceController.text = ninetyPrice;
     });
   }
 
@@ -29,13 +35,16 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        // leading: Icon(Icons.menu),
         title: Text(widget.title),
+        centerTitle: true,
       ),
-      body: Center(
+      body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[    
-            Padding(padding: const EdgeInsets.all(8.0),
+          children: <Widget>[
+            Padding(padding: const EdgeInsets.all(10.0),
               child: TextFormField(
                 initialValue: '24',
                 onChanged: calculatePrice,
@@ -75,11 +84,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            Padding(padding: const EdgeInsets.all(8.0),
-              child: priceField(label: label.eightyFive)
-            ),
-            Padding(padding: const EdgeInsets.all(8.0),
-              child: priceField(label: label.ninety)
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(padding: const EdgeInsets.all(8.0),
+                    child: priceField(label: label.eightyFive, price: eightyFivePrice)
+                  )
+                ),
+                Expanded(
+                  child: Padding(padding: const EdgeInsets.all(8.0),
+                    child: priceField(label: label.ninety, price: ninetyPrice)
+                  )
+                )
+              ]
             )
           ],
         ),

@@ -1,6 +1,5 @@
-# hk_taxi_price_calculator
-
-A new Flutter project.
+# hk taxi price calculator
+Flutter project.
 
 ## Getting Started
 
