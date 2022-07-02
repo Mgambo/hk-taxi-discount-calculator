@@ -61,8 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
       newPriceController.text = newPrice.toString();
       totalPrice = newPrice + extraPrice;
       totalPriceController.text = totalPrice.toString();
-      eightyFivePrice = (totalPrice * 0.85).toStringAsPrecision(3).toString();
-      ninetyPrice = (totalPrice * 0.9).toStringAsPrecision(3).toString();
+      eightyFivePrice = ((newPrice * 0.85) + extraPrice).toStringAsPrecision(3).toString();
+      ninetyPrice = ((newPrice * 0.85) + extraPrice).toStringAsPrecision(3).toString();
       priceField.priceController.text = ninetyPrice;
     });
   }
@@ -86,7 +86,19 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         elevation: 0,
         // leading: Icon(Icons.menu),
-        title: Text(widget.title),
+        title: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(text: widget.title, style: const TextStyle(fontSize: 20.0)),
+              const WidgetSpan(child:
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 2.0),
+                  child: Icon(Icons.local_taxi)
+                )
+              )
+            ]
+          )
+        ),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -103,6 +115,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.search),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            oldPriceController.text = rate.oldPrice.toString();
+                            calculatePrice(rate.oldPrice.toString(), 'old');
+                          },
+                          icon: const Icon(Icons.clear),
+                        ),
                         labelText: label.originalPrice,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20)
@@ -112,23 +131,28 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   )
                 ),
-                Expanded(
-                  child: Padding(padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      controller: extraPriceController,
-                      onChanged: (value) => calculatePrice(value, 'extra'),
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true), 
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.search),
-                        labelText: label.extraPrice,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20)
-                        )
-                      ),
-                    ),
-                  )
-                )
               ]
+            ),
+            Padding(padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                controller: extraPriceController,
+                onChanged: (value) => calculatePrice(value, 'extra'),
+                keyboardType: const TextInputType.numberWithOptions(decimal: true), 
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      extraPriceController.text = '0';
+                      calculatePrice('0', 'extra');
+                    },
+                    icon: const Icon(Icons.clear),
+                  ),
+                  labelText: label.extraPrice,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  )
+                ),
+              ),
             ),
             Padding(padding: const EdgeInsets.all(8.0),
               child: TextFormField(
