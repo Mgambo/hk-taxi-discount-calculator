@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
       totalPrice = newPrice + extraPrice;
       totalPriceController.text = totalPrice.toString();
       eightyFivePrice = ((newPrice * 0.85) + extraPrice).toStringAsPrecision(3).toString();
-      ninetyPrice = ((newPrice * 0.85) + extraPrice).toStringAsPrecision(3).toString();
+      ninetyPrice = ((newPrice * 0.9) + extraPrice).toStringAsPrecision(3).toString();
       priceField.priceController.text = ninetyPrice;
     });
   }
