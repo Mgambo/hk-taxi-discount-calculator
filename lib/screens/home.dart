@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../consts/rate.dart';
 import '../consts/languages/chinese.dart';
+import '../consts/rate.dart';
+import '../consts/styles/font.dart';
 import '../components/price.dart';
 import '../utils/rate.dart';
 
@@ -58,18 +59,18 @@ class _MyHomePageState extends State<MyHomePage> {
       } else {
         newPrice = 0;
       }
-      newPriceController.text = newPrice.toString();
+      newPriceController.text = newPrice.toStringAsFixed(2);
       totalPrice = newPrice + extraPrice;
-      totalPriceController.text = totalPrice.toString();
-      eightyFivePrice = ((newPrice * 0.85) + extraPrice).toStringAsPrecision(3).toString();
-      ninetyPrice = ((newPrice * 0.9) + extraPrice).toStringAsPrecision(3).toString();
+      totalPriceController.text = totalPrice.toStringAsFixed(2);
+      eightyFivePrice = ((newPrice * 0.85) + extraPrice).toStringAsFixed(2);
+      ninetyPrice = ((newPrice * 0.9) + extraPrice).toStringAsFixed(2);
       priceField.priceController.text = ninetyPrice;
     });
   }
 
   String ? get oldPriceErrorText {
     final text = oldPriceController.value.text;
-    String wrongPriceText = '錯誤車資, 請輸入';
+    String? wrongPriceText = label.errorMessage["invalidInput"];
     if (text == '') {
       return wrongPriceText;
     }
@@ -89,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: RichText(
           text: TextSpan(
             children: [
-              TextSpan(text: widget.title, style: const TextStyle(fontSize: 20.0)),
+              TextSpan(text: widget.title, style: const TextStyle(fontSize: 25.0)),
               const WidgetSpan(child:
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 2.0),
@@ -113,12 +114,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       controller: oldPriceController,
                       onChanged: (value) => calculatePrice(value, 'old'),
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      style: const TextStyle(fontSize: Styles_Font.labelFontSize),
                       decoration: InputDecoration(
+                        labelStyle: const TextStyle(fontSize: Styles_Font.labelFontSize),
                         prefixIcon: const Icon(Icons.search),
                         suffixIcon: IconButton(
                           onPressed: () {
-                            oldPriceController.text = rate.oldPrice.toString();
-                            calculatePrice(rate.oldPrice.toString(), 'old');
+                            oldPriceController.text = '0';
+                            calculatePrice('0', 'old');
                           },
                           icon: const Icon(Icons.clear),
                         ),
@@ -131,35 +134,41 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   )
                 ),
+                Expanded(
+                  child: Padding(padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: extraPriceController,
+                      onChanged: (value) => calculatePrice(value, 'extra'),
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true), 
+                      style: const TextStyle(fontSize: Styles_Font.labelFontSize),
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            extraPriceController.text = '0';
+                            calculatePrice('0', 'extra');
+                          },
+                          icon: const Icon(Icons.clear),
+                        ),
+                        labelText: label.extraPrice,
+                        labelStyle: const TextStyle(fontSize: Styles_Font.labelFontSize),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20)
+                        )
+                      ),
+                    ),
+                  ), 
+                )
               ]
-            ),
-            Padding(padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: extraPriceController,
-                onChanged: (value) => calculatePrice(value, 'extra'),
-                keyboardType: const TextInputType.numberWithOptions(decimal: true), 
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      extraPriceController.text = '0';
-                      calculatePrice('0', 'extra');
-                    },
-                    icon: const Icon(Icons.clear),
-                  ),
-                  labelText: label.extraPrice,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20)
-                  )
-                ),
-              ),
             ),
             Padding(padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 readOnly: true,
                 controller: newPriceController,
+                style: const TextStyle(fontSize: Styles_Font.labelFontSize),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.monetization_on_outlined),
+                  labelStyle: const TextStyle(fontSize: Styles_Font.labelFontSize),
                   labelText: label.newPrice,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20)
@@ -171,8 +180,10 @@ class _MyHomePageState extends State<MyHomePage> {
               child: TextFormField(
                 readOnly: true,
                 controller: totalPriceController,
+                style: const TextStyle(fontSize: Styles_Font.labelFontSize),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.monetization_on_outlined),
+                  labelStyle: const TextStyle(fontSize: Styles_Font.labelFontSize),
                   labelText: label.totalPrice,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20)

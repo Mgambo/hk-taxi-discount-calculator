@@ -20,10 +20,6 @@ class rateUtil {
       return rate.newPrice + (km * rate.beforeNineKm['newRate']);
     } else {
       num km = double.parse((value - rate.beforeNineKm['max']).toStringAsFixed(2)) / rate.afterNineKm['oldRate'];
-      print(km);
-      print(rate.beforeNineKm['max']);
-      print(rate.afterNineKm['max']);
-      // return 0;
       return rate.afterNineKm['max'] + (km * rate.afterNineKm['newRate']);
     }
   }

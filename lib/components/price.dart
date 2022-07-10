@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../consts/styles/font.dart';
 
 class priceField extends StatelessWidget {
   String label;
@@ -23,10 +24,11 @@ class priceField extends StatelessWidget {
               Text(
                 label,
                 textAlign: TextAlign.center, 
-                style: const TextStyle(fontSize: 14.0),
+                style: const TextStyle(fontSize: Styles_Font.labelFontSize),
               )
           ),
-          Text(price, textAlign: TextAlign.center)
+          Text(price, textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 25.0),)
         ]
       )
     );
