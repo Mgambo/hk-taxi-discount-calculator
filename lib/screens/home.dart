@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../consts/languages/chinese.dart';
 import '../consts/rate.dart';
 import '../consts/styles/font.dart';
-import '../components/price.dart';
+import '../widgets/price.dart';
 import '../utils/rate.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -24,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    // implement initState
     super.initState();
 
     extraPriceController.text = '0';

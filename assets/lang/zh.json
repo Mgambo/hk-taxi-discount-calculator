@@ -1,0 +1,10 @@
+{
+  "title": "的士車資加價換算",
+  "originalPrice": "舊車資",
+  "newPrice": "新車資",
+  "extraPrice": "附加費",
+  "totalPrice": "總車資",
+  "eightyFive": "總車資-85折",
+  "ninety": "總車資-9折",
+  "invalidInput": "錯誤車資, 最少車資"
+}
