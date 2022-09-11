@@ -16,7 +16,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final newPriceController = TextEditingController();
   final extraPriceController = TextEditingController();
-  final oldPriceController = TextEditingController();
   final totalPriceController = TextEditingController();
 
   String ninetyPrice = '0';
@@ -36,7 +35,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void calculatePrice(String value, String type) {
     num newPrice = 0;
-    num oldPrice = 0;
     num extraPrice = 0;
     num totalPrice = 0;
 
@@ -45,21 +43,14 @@ class _MyHomePageState extends State<MyHomePage> {
     switch (type) {
       case 'extra':
         extraPrice = num.parse(value);
-        oldPrice = num.parse(oldPriceController.text);
         break;
-      case 'old':
+      case 'normal':
         extraPrice = num.parse(
             extraPriceController.text != '' ? extraPriceController.text : '0');
-        oldPrice = num.parse(value);
+        newPrice = num.parse(value);
     }
 
     setState(() {
-      if (rateUtil().validatePrice(oldPrice)) {
-        // newPrice = rateUtil().calcNewPrice(oldPrice); //num.parse(value) * 0.85;
-        newPrice = oldPrice;
-      } else {
-        newPrice = 0;
-      }
       totalPrice = newPrice + extraPrice;
       totalPriceController.text = totalPrice.toStringAsFixed(2);
       eightyFivePrice = ((newPrice * 0.85) + extraPrice).toStringAsFixed(2);
@@ -68,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  String? get oldPriceErrorText {
+  String? get priceErrorText {
     final text = newPriceController.value.text;
     String? wrongPriceText = label.errorMessage["invalidInput"];
     if (text == '') {
@@ -108,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.all(10.0),
                   child: TextFormField(
                     controller: newPriceController,
-                    onChanged: (value) => calculatePrice(value, 'old'),
+                    onChanged: (value) => calculatePrice(value, 'normal'),
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
                     style: const TextStyle(fontSize: Styles_Font.labelFontSize),
@@ -119,14 +110,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         suffixIcon: IconButton(
                           onPressed: () {
                             newPriceController.text = '0';
-                            calculatePrice('0', 'old');
+                            calculatePrice('0', 'normal');
                           },
                           icon: const Icon(Icons.clear),
                         ),
                         labelText: label.originalPrice,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20)),
-                        errorText: oldPriceErrorText),
+                        errorText: priceErrorText),
                   ),
                 )),
                 Expanded(

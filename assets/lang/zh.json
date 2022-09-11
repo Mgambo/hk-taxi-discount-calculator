@@ -1,7 +1,6 @@
 {
   "title": "的士車資折扣換算",
-  "originalPrice": "舊車資",
-  "newPrice": "新車資",
+  "originalPrice": "原價",
   "extraPrice": "附加費",
   "totalPrice": "總車資",
   "eightyFive": "總車資-85折",

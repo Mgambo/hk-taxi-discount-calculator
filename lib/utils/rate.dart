@@ -1,27 +1,12 @@
 import '../consts/rate.dart';
 
-class rateUtil {
+class RateUtil {
   /// @description validate if the price is valid taxi fare
   bool validatePrice(value) {
     if (value >= rate.newPrice) {
       return true;
     } else {
       return false;
-    }
-  }
-
-  /// @description calculate the new price
-  num calcNewPrice(value) {
-    // if price is over 9km, use new rate
-    if (value <= rate.beforeNineKm['max']) {
-      num km = double.parse((value - rate.oldPrice).toStringAsFixed(2)) /
-          rate.beforeNineKm['oldRate'];
-      return rate.newPrice + (km * rate.beforeNineKm['newRate']);
-    } else {
-      num km =
-          double.parse((value - rate.beforeNineKm['max']).toStringAsFixed(2)) /
-              rate.afterNineKm['oldRate'];
-      return rate.afterNineKm['max'] + (km * rate.afterNineKm['newRate']);
     }
   }
 }
