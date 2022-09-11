@@ -16,10 +16,8 @@ class MyApp extends StatelessWidget {
       title: 'Taxi Price Calculator',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(fontSize: 20.0)
-        ),
-        primarySwatch: Colors.blueGrey,
+        textTheme: const TextTheme(bodyMedium: TextStyle(fontSize: 20.0)),
+        primarySwatch: Colors.brown,
       ),
       home: const MyHomePage(title: label.title),
     );
